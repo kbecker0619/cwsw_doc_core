@@ -11,7 +11,7 @@ Some environments create a compile-time symbol that relates to the "configuratio
 
 The Library relies on this method to use compile-time selections of certain elements; this is done to enable building in different environments.
 
-Within Eclipse, we rely on the following symbols:
+Within Eclipse, we rely on the following command-line symbols, defined within the project properties:
 
 Symbol 	| Environment
 :---:	|:---
@@ -21,17 +21,14 @@ XPRJ_Debug_Linux_GCC_Desktop	| Eclipse using GCC, running on Linux, Debug build 
 
 Within Eclipse, the easy way to make this command-line define is to create a Define with the definition `XPRJ_${ConfigName}`
 
-Project / Properties / C/C++ General / Paths and Symbols / [Symbols] tab / Add / `XPRJ_${ConfigName}=1` 
+* Project / Properties / C/C++ General / Paths and Symbols / [Symbols] tab / Add / `XPRJ_${ConfigName}=1` 
 
 These definitions are found in Eclipse' `.cproject` file, as is the command-line define.
 
-#### Eclipse
+#### Eclipse, S32DS, and other IDEs built upon Eclipse
 tbd
 
-#### NetBeans
-tbd
-
-#### MPLab IDE
+#### NetBeans, MPLab X IDE, and other IDEs built upon NetBeans
 tbd
 
 #### LabWindows/CVI v7 (ancient!)
