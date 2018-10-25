@@ -19,7 +19,7 @@ XPRJ_Debug_Win_MinGW	| Eclipse using MinGW, running on Windows, Debug build targ
 XPRJ_Debug_Linux_GCC	| Eclipse running on an embedded Linux. In many regards, this is very close to `XPRJ_Debug_Linux_GCC_Desktop`
 XPRJ_Debug_Linux_GCC_Desktop	| Eclipse using GCC, running on Linux, Debug build target.
 
-Within Eclipse, the easy way to make this comamnd-line define is to create a Define with the definition `XPRJ_${ConfigName}`
+Within Eclipse, the easy way to make this command-line define is to create a Define with the definition `XPRJ_${ConfigName}`
 
 Project / Properties / C/C++ General / Paths and Symbols / [Symbols] tab / Add / `XPRJ_${ConfigName}=1` 
 
