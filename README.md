@@ -31,9 +31,12 @@ These definitions are found in Eclipse' `.cproject` file, as is the command-line
 
 **Note**: To effect a command-line build using MinGW, you need to manually add both `MinGW/bin` and `msys/1.0/bin` directories to your path statement; without this, you'll need to build within the IDE. If you have Cygwin installed, be careful you don't insert these MinGW folders "in front of" the Cygwin folders that contain the common build tools.
 
+
 #### NetBeans, MPLab X IDE, and other IDEs built upon NetBeans
 tbd
+
 **Note**: MPLAB X automatically creates the `XPRJ_${CONF}` command-line define referenced in the table above. Within NetBeans, you'll need to create it yourself, in the project properties.
+
 **Note**: To effect a command-line build using MinGW, you need to manually add both `MinGW/bin` and `msys/1.0/bin` directories to your path statement; without this, you'll need to build within the IDE. If you have Cygwin installed, be careful you don't insert these MinGW folders "in front of" the Cygwin folders that contain the common build tools.
 
 #### LabWindows/CVI v7 (ancient!)
