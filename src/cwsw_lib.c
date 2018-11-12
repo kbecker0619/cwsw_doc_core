@@ -1,7 +1,5 @@
 /** @file
- *	@brief	One-sentence short description of file.
- *
- *	Description:
+ *	@brief	Supporting & implementation code for CWSW Library component.
  *
  *	Copyright (c) 2018 Kevin L. Becker. All rights reserved.
  *
@@ -64,7 +62,11 @@ uint16_t
 Cwsw_Lib__Init(void)
 {
 	UNUSED(cwsw_lib_RevString);
-	if( (XPRJ_Debug_Win_MinGW) || (XPRJ_Debug_Linux_GCC) || (XPRJ_Debug_MSC) || (XPRJ_Debug_CVI) )
+	if(	(XPRJ_Debug_Win_MinGW) 	||
+		(XPRJ_Debug_Linux_GCC) 	||
+		(XPRJ_NB_Debug)			||
+		(XPRJ_Debug_MSC) 		||
+		(XPRJ_Debug_CVI) )
 	{
 		disable_console_buffering();
 
