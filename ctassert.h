@@ -3,7 +3,7 @@
  *
  *	Description:
  *
- *	Copyright (c) 2018 Kevin L. Becker. All rights reserved.
+ *	Copyright (c) 2019 Kevin L. Becker. All rights reserved.
  *
  *	Current:
  *	$Revision: $
@@ -12,10 +12,6 @@
 
 #ifndef INCLUDE_CTASSERT_H_
 #define INCLUDE_CTASSERT_H_
-
-#ifdef	__cplusplus
-extern "C" {
-#endif
 
 
 // ============================================================================
@@ -28,6 +24,10 @@ extern "C" {
 
 // ----	Module Headers --------------------------
 
+
+#ifdef	__cplusplus
+extern "C" {
+#endif
 
 // ============================================================================
 // ----	Constants -------------------------------------------------------------
