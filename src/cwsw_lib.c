@@ -66,7 +66,7 @@ Cwsw_Lib__Init(void)
 		(XPRJ_Debug_Linux_GCC) 	||
 		(XPRJ_NB_Debug)			||
 		(XPRJ_Debug_MSC) 		||
-		(XPRJ_Debug_CVI) )
+		(XPRJ_CVI_Debug) )
 	{
 		disable_console_buffering();
 
