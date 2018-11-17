@@ -310,7 +310,11 @@ typedef void (*fpTask)(void);
 
 #endif
 
-#if (XPRJ_Debug_Win_MinGW) || (XPRJ_Debug_Linux_GCC) || defined(_CVI_) || defined(_MSC_VER)
+#if (XPRJ_Debug_Win_MinGW)	||  \
+	(XPRJ_Debug_Linux_GCC)	||  \
+	(XPRJ_NB_Debug)			||  \
+	(XPRJ_CVI_Debug) 		||  \
+	(_MSC_VER)
 	/**	When built on a PC, it's likely I want to see module elements that we would
 	 *	otherwise want to keep secret.
 	 */

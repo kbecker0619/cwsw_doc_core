@@ -17,6 +17,7 @@
 // ============================================================================
 
 // ----	System Headers --------------------------
+#include <limits.h>     // INT_MAX
 
 // ----	Project Headers -------------------------
 
@@ -62,10 +63,10 @@ uint16_t
 Cwsw_Lib__Init(void)
 {
 	UNUSED(cwsw_lib_RevString);
-	if(	(XPRJ_Debug_Win_MinGW) 	||
-		(XPRJ_Debug_Linux_GCC) 	||
-		(XPRJ_NB_Debug)			||
-		(XPRJ_Debug_MSC) 		||
+	if(	(XPRJ_Win_MinGW_Debug) 	||  \
+		(XPRJ_Debug_Linux_GCC) 	||  \
+		(XPRJ_NB_Debug)			||  \
+		(XPRJ_Debug_MSC) 		||  \
 		(XPRJ_CVI_Debug) )
 	{
 		disable_console_buffering();
@@ -96,31 +97,52 @@ Cwsw_Lib__Get_Initialized(void)
 	return initialized;
 }
 
+
+/** Logging function specifically for cwsw_assert_helper.
+ *  Weak binding so that application can override.
+ */
+WEAK void
+cwsw_assert_helper_log(char const * const test,
+                       char const * const filename,
+                       int const lineno,
+                       char const * const descrip)
+{
+	dbg_printf(
+		"\nAssertion failed: \"%s\", file::line: %s::%i\nDescription: %s\n\n",
+		test, filename, lineno, descrip);
+}
+
 /** Helper function for CWSW Assert statement.
  *
  * @param[in]	test		The stringified text of the the test that failed the assertion
  * @param[in]	filename	The name of the file that held the failed assertion.
  * @param[in]	lineno 		The line number in the file that held the failed assertion.
- * @param[in]	descrip	The user-supplied description that augments the assertion notice. Suitable for a logging statement.
+ * @param[in]	descrip     The user-supplied description that augments the assertion notice.
+ *                          Suitable for a logging statement.
  */
 void
-cwsw_assert_helper(char const * const test, char const * const filename, int const lineno, char const * const descrip)
+cwsw_assert_helper(char const * const test,
+                   char const * const filename,
+                   int const lineno,
+                   char const * const descrip)
 {
 	volatile uint16_t delay = 0;
 
-	dbg_printf(
-		"\nAssertion failed: \"%s\", file::line: %s::%i\nDescription: %s\n\n",
-		test, filename, lineno, descrip);
+    cwsw_assert_helper_log(test, filename, lineno, descrip);
 
 	while(--delay);
 }
 
 
 PRIVATE int protection_count = 0;
-int Cwsw_Critical_Protect(int param)
+int
+Cwsw_Critical_Protect(int param)
 {
 	UNUSED(param);
-	cwsw_assert(protection_count >= 0, "Invalid Critical Section Protection Count");
+	cwsw_assert((protection_count >= 0) &&
+                (protection_count < INT_MAX),
+                "Invalid Critical Section Protection Count");
+    if(protection_count < 0)    {protection_count = 0;}
 	if(protection_count)
 	{
 		// no need to engage protection, it's already protected
@@ -132,7 +154,8 @@ int Cwsw_Critical_Protect(int param)
 	return ++protection_count;
 }
 
-int Cwsw_Critical_Release(int param)
+int
+Cwsw_Critical_Release(int param)
 {
 	UNUSED(param);
 	cwsw_assert(protection_count > 0, "Invalid Critical Section Protection Count");		// must have valid count, and must have previously engaged protection
