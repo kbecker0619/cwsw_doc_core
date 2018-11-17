@@ -15,7 +15,7 @@ Within Eclipse, we rely on the following command-line symbols, defined within th
 
 Symbol 	| Environment
 :---:	|:---
-XPRJ_Debug_Win_MinGW	| Eclipse using MinGW, running on Windows, Debug build target (configuration).
+XPRJ_Win_MinGW_Debug	| Eclipse using MinGW, running on Windows, Debug build target (configuration).
 XPRJ_Debug_Win_NB     | NetBeans using MinGW, running on Windows, Debug build target (configuration).
 XPRJ_Debug_Linux_GCC	| Eclipse running on an embedded Linux. In many regards, this is very close to `XPRJ_Debug_Linux_GCC_Desktop`
 XPRJ_Debug_Linux_GCC_Desktop	| Eclipse using GCC, running on Linux, Debug build target.

@@ -364,7 +364,7 @@ Cwsw_Critical_Release(int param)
 	 *	If the CWSW Library finds certain symbols defined on the compiler command line, some minor
 	 *	optional functionality is enabled.
 	 *
-	 *	If either <code>XPRJ_Debug_Win_MinGW</code> or <code>XPRJ_Debug_Linux_GCC</code> are defined
+	 *	If either <code>XPRJ_Win_MinGW_Debug</code> or <code>XPRJ_Debug_Linux_GCC</code> are defined
 	 *	with a numeric value other than zero or #false, then a function-like macro is enabled that
 	 *	disables console buffering: <code>disable_console_buffering()</code>.
 	 *
