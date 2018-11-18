@@ -189,16 +189,16 @@ Cwsw_Critical_Release(int param)
 
 /** @page Lib_Design							Library Subsystem Design
  *	@tableofcontents
- *		@subpage Lib_Responsibilities \n
- *		@subpage Lib_Constraints \n
- *		@subpage Lib_Interactions \n
- *		@subpage Lib_Composition \n
- *		@subpage Lib_Resources \n
- *		@subpage Lib_Interfaces \n
- *		@subpage Lib_Main_Obj_Diag \n
- *		@subpage Lib_Seq_Diag_Fail \n
- *		@subpage Lib_Dsm \n
  */
+// *		@subpage Lib_Resources \n
+// *		@subpage Lib_Main_Obj_Diag \n
+// *		@subpage Lib_Responsibilities \n
+// *		@subpage Lib_Interfaces \n
+// *		@subpage Lib_Composition \n
+// *		@subpage Lib_Interactions \n
+// *		@subpage Lib_Constraints \n
+// *		@subpage Lib_Seq_Diag_Fail \n
+// *		@subpage Lib_Dsm \n
 
 /**	@page Lib_Integration						Integrating the Reusable Component
  *	@tableofcontents
@@ -365,7 +365,7 @@ Cwsw_Critical_Release(int param)
 	 *	optional functionality is enabled.
 	 *
 	 *	If either <code>XPRJ_Win_MinGW_Debug</code> or <code>XPRJ_Debug_Linux_GCC</code> are defined
-	 *	with a numeric value other than zero or #false, then a function-like macro is enabled that
+	 *	with a numeric value other than zero or false, then a function-like macro is enabled that
 	 *	disables console buffering: <code>disable_console_buffering()</code>.
 	 *
 	 *	In addition, if either of those symbols are defined, or if the library detects that it's
