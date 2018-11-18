@@ -62,7 +62,7 @@ uint16_t
 Cwsw_Lib__Init(void)
 {
 	UNUSED(cwsw_lib_RevString);
-	if(	(XPRJ_Debug_Win_MinGW) 	||
+	if(	(XPRJ_Win_MinGW_Debug) 	||
 		(XPRJ_Debug_Linux_GCC) 	||
 		(XPRJ_NB_Debug)			||
 		(XPRJ_Debug_MSC) 		||
@@ -101,7 +101,7 @@ Cwsw_Lib__Get_Initialized(void)
  * @param[in]	test		The stringified text of the the test that failed the assertion
  * @param[in]	filename	The name of the file that held the failed assertion.
  * @param[in]	lineno 		The line number in the file that held the failed assertion.
- * @param[in]	descrip	The user-supplied description that augments the assertion notice. Suitable for a logging statement.
+ * @param[in]	descrip		The user-supplied description that augments the assertion notice. Suitable for a logging statement.
  */
 void
 cwsw_assert_helper(char const * const test, char const * const filename, int const lineno, char const * const descrip)
@@ -341,7 +341,7 @@ int Cwsw_Critical_Release(int param)
 	 *	If the CWSW Library finds certain symbols defined on the compiler command line, some minor
 	 *	optional functionality is enabled.
 	 *
-	 *	If either <code>XPRJ_Debug_Win_MinGW</code> or <code>XPRJ_Debug_Linux_GCC</code> are defined
+	 *	If either <code>XPRJ_Win_MinGW_Debug</code> or <code>XPRJ_Debug_Linux_GCC</code> are defined
 	 *	with a numeric value other than zero or #false, then a function-like macro is enabled that
 	 *	disables console buffering: <code>disable_console_buffering()</code>.
 	 *
