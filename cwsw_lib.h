@@ -265,7 +265,7 @@ typedef void (*fpTask)(void);
 
 
 /**	Is specified condition true?
- *	@return #true if condition is true, #false otherwise.
+ *	@return true if condition is true, false otherwise.
  */
 #define IS(cond)      						(bool)(GET(cond) != false)
 
