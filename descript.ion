@@ -1,0 +1,7 @@
+ctassert.h Support for Compile-Time Assertions
+cwsw_eventsim.h API for VERY rudimentary event simulation (notification events)
+cwsw_lib.h API for CWSW Library services
+descript.ion 7-Zip file that provides file commentary
+include lesser-used API headers
+README.md This folder contains the general CWSW library services
+src Implementation file(s) for this component
