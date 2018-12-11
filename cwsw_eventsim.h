@@ -36,6 +36,7 @@
 extern "C" {
 #endif
 
+
 // ============================================================================
 // ----	Constants -------------------------------------------------------------
 // ============================================================================
@@ -61,13 +62,13 @@ typedef struct eEventPayload  {
 	uint16_t	evId;		// for unit test, i need to know the event id. this is super-simplistic pseudo-eventing system anyway, solely for purpose of illustrating possibilities
 	uint16_t	evExtra;	// 2-byte field to suppress warnings about packing / field alignment on some architectures.
 	uint32_t	evInt;
-} tNotificationPayload;
+} tEventPayload;
 
 /**	In the absence of a real event system, this is the prototype for an event
  *	handler. Normal instantiation would be for an array of handlers, each of
  *	which "subscribes" to said event.
  */
-typedef void (*pEventHandler)(tNotificationPayload EventData);
+typedef void (*pEventHandler)(tEventPayload EventData);
 
 
 // -----------------------------------------------------------------------------
@@ -76,10 +77,10 @@ typedef void (*pEventHandler)(tNotificationPayload EventData);
 
 /**	List of supported events.
  * 	@note Even though this is an enumerated list, it is NOT meant to be used for
- * 	the actual values, but for the names themselves. See the SendNotification
+ * 	the actual values, but for the names themselves. See the PostEvent
  * 	definition to see how that's done.
  */
-#if (USE_NOTIFICATION_EVENTS)
+#if (USE_SIMULATED_EVENTS)
 #include "projevtnames.h"
 typedef enum eProjectEvents tProjectEvents;
 
@@ -113,12 +114,12 @@ typedef enum eProjectEvents tProjectEvents;
  * 	that must be defined; however, it could be a function that forwards the event
  * 	to other handlers, or a macro that iterates through an array, or ...
  */
-#if (USE_NOTIFICATION_EVENTS)
-#define SendNotification(ev, evpayload)	_Notify(ev, evpayload)
-#define _Notify(ev, evpayload)			NotificationHandler__ ## ev(evpayload)
+#if (USE_SIMULATED_EVENTS)
+#define PostEvent(ev, evpayload)	_Notify(ev, evpayload)
+#define _Notify(ev, evpayload)		EventHandler__ ## ev(evpayload)
 
 #else
-#define SendNotification(ev, evpayload)		do {UNUSED(evpayload);} while(0)
+#define PostEvent(ev, evpayload)		do {UNUSED(evpayload);} while(0)
 
 #endif
 
