@@ -119,7 +119,7 @@ typedef enum eProjectEvents tProjectEvents;
 #define _Notify(ev, evpayload)		EventHandler__ ## ev(evpayload)
 
 #else
-#define PostEvent(ev, evpayload)		do {UNUSED(evpayload);} while(0)
+#define PostEvent(ev, evpayload)	SUPPRESS_CONST_EXPR;do {UNUSED(evpayload);} while(0);RESTORE_WARNING_CONTEXT
 
 #endif
 

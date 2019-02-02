@@ -63,8 +63,8 @@ uint16_t
 Cwsw_Lib__Init(void)
 {
 	UNUSED(cwsw_lib_RevString);
-	
-	SUPPRESS_CONST_EXPR;
+
+	SUPPRESS_CONST_EXPR;			/* as these are all compile-time constants, we know they're constant, and do this intenionally; suppress compiler warning for this */
 	if(	(XPRJ_Win_MinGW_Debug) 	||  \
 		(XPRJ_Win_MinGW_UT)		||	\
 		(XPRJ_Debug_Linux_GCC) 	||  \
@@ -74,22 +74,15 @@ Cwsw_Lib__Init(void)
 	{
 		disable_console_buffering();
 
-		#if defined(__GNUC__)	/* --- GNU Environment ------------------------------ */
-		#pragma GCC diagnostic push
-		#pragma GCC diagnostic ignored "-Wpedantic"
-		#endif
-
+		SUPPRESS_EXTRAISO_IDENT;	/* suppress warning for function name */
 		dbg_printf(
 				"\tModule ID %i\t%s\t%s\n"
 				"\tEntering %s()\n\n",
 				Cwsw_Lib, __FILE__, cwsw_lib_RevString,
 				__FUNCTION__);
-
-		#if defined(__GNUC__)	/* --- GNU Environment ------------------------------ */
-		#pragma GCC diagnostic pop
-		#endif
+		RESTORE_WARNING_CONTEXT;
 	}
-	RESTORE_WARNING_LEVEL;
+	RESTORE_WARNING_CONTEXT;
 
 	initialized = true;
 	return 0;
@@ -148,7 +141,7 @@ Cwsw_Critical_Protect(int param)
 	cwsw_assert((protection_count >= 0) &&
                 (protection_count < INT_MAX),
                 "Invalid Critical Section Protection Count");
-	RESTORE_WARNING_LEVEL;
+	RESTORE_WARNING_CONTEXT;
 
     if(protection_count < 0)    {protection_count = 0;}
 	if(protection_count)
@@ -169,7 +162,7 @@ Cwsw_Critical_Release(int param)
 
 	SUPPRESS_CONST_EXPR;
 	cwsw_assert(protection_count > 0, "Invalid Critical Section Protection Count");		// must have valid count, and must have previously engaged protection
-	RESTORE_WARNING_LEVEL;
+	RESTORE_WARNING_CONTEXT;
 
 	if(!--protection_count)
 	{

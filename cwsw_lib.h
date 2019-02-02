@@ -68,14 +68,52 @@ extern int Cwsw_Critical_Protect(int param);
 extern int Cwsw_Critical_Release(int param);
 
 
-/*	===	definitions common to all environments ================================
- */
+//	===	definitions common to all environments ================================
 
-#if defined(_MSC_VER)
-#define SUPPRESS_CONST_EXPR			SUSPEND_WARNING(4127)
-#define SUSPEND_WARNING(warn_num)	__pragma(warning(push));__pragma(warning(disable:warn_num))
-#define RESTORE_WARNING_LEVEL		__pragma(warning(pop))
-#endif
+#if defined (__GNUC__)					/*{*/
+/** GNU's recommended implementation of macros using _Pragma keyword */
+#define DO_PRAGMA(x)					DO_PRAGMA_(x)
+#define DO_PRAGMA_(x)					_Pragma(TO_STRING(x))
+
+/** Building block for creating a macro to ignore a specific compiler warning. This is the
+ *  argument to the "ignore" command used in the #DISABLE_WARNING macro.
+ */
+#define GCC_WARNING_STRING(warnname)	"-W" TO_STRING(warnname)
+/** disable a specific warning. intended to take as a parameter, the unquoted readable name of the warning. */
+#define DISABLE_WARNING(x)				DO_PRAGMA(GCC diagnostic ignored GCC_WARNING_STRING(x))
+
+/* these are defined as parameterless-but-otherwise-FLM on purpose; right or wrong, my intention is
+ * to make it clear that these are compiler directives, and do not expand to code.
+ */
+#define SAVE_WARNING_CONTEXT			DO_PRAGMA(GCC diagnostic push)
+#define RESTORE_WARNING_CONTEXT			DO_PRAGMA(GCC diagnostic pop)
+
+/** Suppress non-ISO but GCC-supported extensions, such as the __FUNCTION__ macro to retrieve as a
+ * 	string the current function name.
+ */
+#define SUPPRESS_EXTRAISO_IDENT			SAVE_WARNING_CONTEXT; DISABLE_WARNING(pedantic)
+
+/** Implement the macro to ingore a constant expression in an if() test. GCC does not directly
+ *  support this warning, but this is defined for compatibility with code that could be compiled for
+ *  other compilers that do support the warning.
+ */
+#define SUPPRESS_CONST_EXPR				SAVE_WARNING_CONTEXT /* no GCC compiler warning addresses this */
+
+#elif defined(_MSC_VER)					/*}{*/
+
+#define DISABLE_WARNING(warn_num)		__pragma(warning(disable:warn_num))
+#define SAVE_WARNING_CONTEXT			__pragma(warning(push))
+#define RESTORE_WARNING_CONTEXT			__pragma(warning(pop))
+
+/** Suppress MSVC's complaint about an if() test using a constant expession. */
+#define SUPPRESS_CONST_EXPR				SAVE_WARNING_CONTEXT; DISABLE_WARNING(4127)
+
+/** Suppress non-ISO but GCC-supported extensions, such as the __FUNCTION__ macro to retrieve as a
+ * 	string the current function name.
+ */
+#define SUPPRESS_EXTRAISO_IDENT			SAVE_WARNING_CONTEXT; DISABLE_WARNING(4555)
+
+#endif									/*}*/
 
 
 /**	Macro to allow (for example) the use of enumeration names in a string. */
@@ -207,7 +245,7 @@ extern int Cwsw_Critical_Release(int param);
  *	the Module argument in your IDE (e.g, Eclipse, NetBeans, etc.), and select
  *	Go To Definition.
  */
-enum { Cwsw_Lib = 0 };	/* CWSW Library */
+enum { Cwsw_Lib = 0 };	/* CWSW Library *///!< Cwsw_Lib
 
 
 /**	Abstract module initialization.
