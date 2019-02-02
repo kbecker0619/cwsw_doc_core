@@ -71,6 +71,13 @@ extern int Cwsw_Critical_Release(int param);
 /*	===	definitions common to all environments ================================
  */
 
+#if defined(_MSC_VER)
+#define SUPPRESS_CONST_EXPR			SUSPEND_WARNING(4127)
+#define SUSPEND_WARNING(warn_num)	__pragma(warning(push));__pragma(warning(disable:warn_num))
+#define RESTORE_WARNING_LEVEL		__pragma(warning(pop))
+#endif
+
+
 /**	Macro to allow (for example) the use of enumeration names in a string. */
 #define TO_STRING(x)	#x
 
@@ -314,7 +321,7 @@ typedef void (*fpTask)(void);
 	(XPRJ_Debug_Linux_GCC)	||  \
 	(XPRJ_NB_Debug)			||  \
 	(XPRJ_CVI_Debug) 		||  \
-	(_MSC_VER)
+	(XPRJ_Win_MSVC_Debug)
 	/**	When built on a PC, it's likely I want to see module elements that we would
 	 *	otherwise want to keep secret.
 	 */

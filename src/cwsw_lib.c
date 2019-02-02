@@ -63,11 +63,13 @@ uint16_t
 Cwsw_Lib__Init(void)
 {
 	UNUSED(cwsw_lib_RevString);
+	
+	SUPPRESS_CONST_EXPR;
 	if(	(XPRJ_Win_MinGW_Debug) 	||  \
 		(XPRJ_Win_MinGW_UT)		||	\
 		(XPRJ_Debug_Linux_GCC) 	||  \
 		(XPRJ_NB_Debug)			||  \
-		(XPRJ_MSVC_Debug) 		||  \
+		(XPRJ_Win_MSVC_Debug)	||  \
 		(XPRJ_CVI_Debug) )
 	{
 		disable_console_buffering();
@@ -87,6 +89,7 @@ Cwsw_Lib__Init(void)
 		#pragma GCC diagnostic pop
 		#endif
 	}
+	RESTORE_WARNING_LEVEL;
 
 	initialized = true;
 	return 0;
@@ -140,9 +143,13 @@ int
 Cwsw_Critical_Protect(int param)
 {
 	UNUSED(param);
+
+	SUPPRESS_CONST_EXPR;
 	cwsw_assert((protection_count >= 0) &&
                 (protection_count < INT_MAX),
                 "Invalid Critical Section Protection Count");
+	RESTORE_WARNING_LEVEL;
+
     if(protection_count < 0)    {protection_count = 0;}
 	if(protection_count)
 	{
@@ -159,7 +166,11 @@ int
 Cwsw_Critical_Release(int param)
 {
 	UNUSED(param);
+
+	SUPPRESS_CONST_EXPR;
 	cwsw_assert(protection_count > 0, "Invalid Critical Section Protection Count");		// must have valid count, and must have previously engaged protection
+	RESTORE_WARNING_LEVEL;
+
 	if(!--protection_count)
 	{
 		// protection count now zero, disengage protection in some way

@@ -58,7 +58,8 @@ extern "C" {
  *	(as in, the event, cause, reason, etc. code) into the evId field.
  */
 typedef struct eEventPayload  {
-	uint16_t	evId;	// for unit test, i need to know the event id. this is super-simplistic pseudo-eventing system anyway, solely for purpose of illustrating possibilities
+	uint16_t	evId;		// for unit test, i need to know the event id. this is super-simplistic pseudo-eventing system anyway, solely for purpose of illustrating possibilities
+	uint16_t	evExtra;	// 2-byte field to suppress warnings about packing / field alignment on some architectures.
 	uint32_t	evInt;
 } tNotificationPayload;
 
