@@ -61,9 +61,16 @@ extern "C" {
  */
 extern uint16_t 			Cwsw_Lib__Init(void);
 
-/** Target for Get(Cwsw_Lib, Initialized) interface. */
+/** Target for Get(Cwsw_Lib, Initialized) interface.
+ *
+ *	@returns	true if component is initialized.
+ *	@returns	false if the component is not initialized.
+ *
+ *	@xreq{SR-LIB-0001}
+ */
 extern bool 				Cwsw_Lib__Get_Initialized(void);
 
+/*	\xreq{SR-LIB-0002} */
 extern int Cwsw_Critical_Protect(int param);
 extern int Cwsw_Critical_Release(int param);
 
