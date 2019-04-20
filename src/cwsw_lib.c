@@ -43,10 +43,15 @@
 static char const * const cwsw_lib_RevString = "$Revision: 0123 $";
 
 /** "Has this module been initialized?" flag.
- *	For the SQSP Library, the import of this flag is less than in most modules; there are no
- *	state-related or HW initializations that must be done, and there is no task function that needs
- *	to be set up. In addition, nothing in this module needs to be deinitialized (such as, in
- *	preparation for entry into sleep mode, etc.)
+ *	For the CWSW Library, the import of this flag is less than in most modules;
+ *	there are no state-related or HW initializations that must be done, and
+ *	there is no task function that needs to be set up. In addition, nothing in
+ *	this module needs to be deinitialized (such as, in preparation for entry
+ *	into sleep mode, etc.)
+ *
+ *	\xreq{sr_lib_0004}	(Supports, Component-specific)
+ *
+ *	@ingroup	cwsw_lib_init_group
  */
 static bool initialized = false;
 
@@ -59,6 +64,23 @@ static bool initialized = false;
 // ----	Public Functions ------------------------------------------------------
 // ============================================================================
 
+/**	@details This function shall be called before the main scheduler is started.
+ *	This function's responsibility is to set up the local vars, to prepare for
+ *	the task function's 1st call (once the scheduler has been started).
+ *
+ *	@returns	0 if the component is successfully initialized.
+ *	@returns	error code if the component is not initialized.
+ *
+ * 	@startuml
+ *	System	->		cwsw_lib: Init()
+ *	System	\\--	cwsw_lib: Error code
+ *	@enduml
+ *
+ *	@xreq{sr_lib_0003}	(Primary, Component-specific)
+ *	@xreq{sr_lib_0004}
+ *
+ *	@ingroup	cwsw_lib_init_group
+ */
 uint16_t
 Cwsw_Lib__Init(void)
 {
@@ -88,6 +110,16 @@ Cwsw_Lib__Init(void)
 	return 0;
 }
 
+
+/**	@details Target for Get(Cwsw_Lib, Initialized) interface.
+ *
+ *	@returns	true if component is initialized.
+ *	@returns	false if the component is not initialized.
+ *
+ *	@xreq{sr_lib_0001}	(Primary, Component-specific)
+ *
+ *	@ingroup	cwsw_lib_init_group
+ */
 bool
 Cwsw_Lib__Get_Initialized(void)
 {

@@ -37,7 +37,7 @@ extern "C" {
 // ============================================================================
 // ----	Constants -------------------------------------------------------------
 // ============================================================================
-#define SQSP_LIB_H__REVSTRING "$Revision: 0123 $"
+#define CWSW_LIB_H__REVSTRING "$Revision: 0123 $"
 
 
 // ============================================================================
@@ -52,25 +52,13 @@ extern "C" {
 // ----	Public API ------------------------------------------------------------
 // ============================================================================
 
-/** Module initialization function.
- *	This function shall be called before the main scheduler is started.
- *	This function's responsibility is to set up the local vars, to prepare for
- *	the task function's 1st call (once the scheduler has been started).
- *
- *	@returns error code, or 0 for no problem (i.e., success).
- */
+/** Module initialization function. */
 extern uint16_t 			Cwsw_Lib__Init(void);
 
-/** Target for Get(Cwsw_Lib, Initialized) interface.
- *
- *	@returns	true if component is initialized.
- *	@returns	false if the component is not initialized.
- *
- *	@xreq{SR-LIB-0001}
- */
+/** Retrieve the component's initialization status. */
 extern bool 				Cwsw_Lib__Get_Initialized(void);
 
-/*	\xreq{SR-LIB-0002} */
+/*	\xreq{sr_lib_0002} */
 extern int Cwsw_Critical_Protect(int param);
 extern int Cwsw_Critical_Release(int param);
 
@@ -100,7 +88,7 @@ extern int Cwsw_Critical_Release(int param);
  */
 #define SUPPRESS_EXTRAISO_IDENT			SAVE_WARNING_CONTEXT; DISABLE_WARNING(pedantic)
 
-/** Implement the macro to ingore a constant expression in an if() test. GCC does not directly
+/** Implement the macro to ignore a constant expression in an if() test. GCC does not directly
  *  support this warning, but this is defined for compatibility with code that could be compiled for
  *  other compilers that do support the warning.
  */
@@ -252,22 +240,42 @@ extern int Cwsw_Critical_Release(int param);
  *	the Module argument in your IDE (e.g, Eclipse, NetBeans, etc.), and select
  *	Go To Definition.
  */
-enum { Cwsw_Lib = 0 };	/* CWSW Library *///!< Cwsw_Lib
+enum { Cwsw_Lib = 0 };	/**< Module-specific identifier, used in API macros */
 
 
-/**	Abstract module initialization.
- *	The intention is, all modules use the same signature for their init
- *	function, so make it more obvious to the code maintainer that we're
- *	using a standardized (template) init function.
+/*  Initialize API description for the CWSW Library components (all of them) */
+/**	@defgroup	cwsw_lib_init_group		CWSW Library: Initialize API
+ * 	@ingroup	cwsw_lib_object_group
+ */
+/**	Abstract module initialization. This is the exposed, 1st-level API.
  *
- *	There is a 2-layer expansion because it is possible the argument could of
- *	itself be a macro; for example, if the module source, header, and function
- *	prefixes were all the same, and so a macro was defined to represent that
- *	module.
+ *	The intention is, all modules use the same signature for their init
+ *	function, to make it more obvious to the code maintainer that we're using
+ *	a standardized (template) init function.
+ *
+ *	@ingroup	cwsw_lib_init_group
+ *
+ *	@xreq{sr_lib_0003}	(Primary)
+ *	@{
  */
 #define Init(instance)						_INIT(instance)
+
+/**	This is the 2nd level of a 2-level expansion; this is done because it is
+ *	possible to pass a macro to the 1st-level (external) API, and we want the
+ *	macro to be fully expanded when the concatenation is done. We don't expect
+ *	to pass nested macro definitions.
+ *
+ *	@xreq{sr_lib_0003}	(Supports)
+ */
 #define _INIT(instance)						instance ## __Init()
+
+/**	Signature for the initialization API for the CWSW Library.
+ *	@xreq{sr_lib_0003}	(Supports)
+ *
+ *	@return	Error code, or 0 for success.
+ */
 typedef uint16_t (*fpInit)(void);
+/**	@} */
 
 
 /**	Abstract Module task function.
