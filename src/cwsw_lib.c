@@ -70,6 +70,9 @@ static bool initialized = false;
  *
  *	@returns	0 if the component is successfully initialized.
  *	@returns	error code if the component is not initialized.
+ *	@note		By design, this component does not depend on specific
+ *				enumerated names for the return code; in the CWSW ecosystem,
+ *				the simulated event mechanism is used to handle error codes.
  *
  * 	@startuml
  *	System	->		cwsw_lib: Init()
@@ -78,12 +81,18 @@ static bool initialized = false;
  *
  *	@xreq{sr_lib_0003}	(Primary, Component-specific)
  *	@xreq{sr_lib_0004}
+ *	@xreq{sr_lib_0006}
+ *
+ *	@note By design, this function unilaterally reinitializes the component and
+ *	returns all internal operating stateful behavior to original operating
+ *	state. This means it takes exception to @req{sr_lib_0007}
  *
  *	@ingroup	cwsw_lib_init_group
  */
 uint16_t
 Cwsw_Lib__Init(void)
 {
+	uint16_t rv = initialized ? 2 : 1;	/* already initialized, or not initialized */
 	UNUSED(cwsw_lib_RevString);
 
 	SUPPRESS_CONST_EXPR;			/* as these are all compile-time constants, we know they're constant, and do this intenionally; suppress compiler warning for this */
@@ -107,7 +116,11 @@ Cwsw_Lib__Init(void)
 	RESTORE_WARNING_CONTEXT;
 
 	initialized = true;
-	return 0;
+	if(rv != 2)	/* if not reinitializing, clear error codes */
+	{
+		rv = 0;
+	}
+	return rv;
 }
 
 
