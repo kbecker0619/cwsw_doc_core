@@ -250,8 +250,8 @@ enum { Cwsw_Lib = 0 };	/**< Module-specific identifier, used in API macros */
 /**	Abstract module initialization. This is the exposed, 1st-level API.
  *
  *	The intention is, all modules use the same signature for their init
- *	function, to make it more obvious to the code maintainer that we're using
- *	a standardized (template) init function.
+ *	function, so use this API to make it more obvious to the code maintainer
+ *	that we're using a standardized (template) init function.
  *
  *	@ingroup	cwsw_lib_init_group
  *
@@ -278,19 +278,36 @@ typedef uint16_t (*fpInit)(void);
 /**	@} */
 
 
-/**	Abstract Module task function.
- *	The intention is, all modules use the same signature for their task
- *	function, so make it more obvious to the code maintainer that we're
- *	using a standardized (template) task function.
+/*  Task API description for the CWSW Library components (all of them) */
+/**	@defgroup	cwsw_lib_task_group		CWSW Library: Task API
+ * 	@ingroup	cwsw_lib_object_group
+ */
+/**	Abstract Module task function. This is the exposed, 1st-level API.
  *
- *	There is a 2-layer expansion because it is possible the argument could of
- *	itself be a macro; for example, if the module source, header, and function
- *	prefixes were all the same, and so a macro was defined to represent that
- *	module.
+ *	The intention is, all modules use the same signature for their task
+ *	function, so use this API to make it more obvious to the code maintainer
+ *	that we're using a standardized (template) task function.
+ *
+ *	@ingroup	cwsw_lib_task_group
+ *
+ *	@xreq{sr_lib_0005}	(Primary)
+ *	@{
  */
 #define Task(instance)						_TASK(instance)
+
+/**	This is the 2nd level of a 2-level expansion; this is done because it is
+ * 	possible to pass a macro to the 1st-level (external) API, and we want the
+ * 	macro to be fully expanded when the concatenation is done. We don't expect
+ * 	to pass nested macro definitions.
+ */
 #define _TASK(instance)						instance ## __Task()
+
+/** Signature for the task API for the CWSW Library.
+ *
+ *	@xreq{sr_lib_0005}	(Supports)
+ */
 typedef void (*fpTask)(void);
+/** @} */
 
 
 /**	Get the value of a module's resource or attribute.
