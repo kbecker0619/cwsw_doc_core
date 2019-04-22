@@ -53,7 +53,9 @@ static char const * const cwsw_lib_RevString = "$Revision: 0123 $";
  *
  *	@ingroup	cwsw_lib_init_group
  */
-static bool initialized = false;
+PRIVATE bool initialized = false;
+
+PRIVATE int protection_count = 0;
 
 
 // ============================================================================
@@ -115,6 +117,7 @@ Cwsw_Lib__Init(void)
 	RESTORE_WARNING_CONTEXT;
 
 	initialized = true;
+    protection_count = 0;
 	if(rv != 2)	/* if not reinitializing, clear error codes */
 	{
 		rv = 0;
@@ -175,7 +178,6 @@ cwsw_assert_helper(char const * const test,
 }
 
 
-PRIVATE int protection_count = 0;
 int
 Cwsw_Critical_Protect(int param)
 {
