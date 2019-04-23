@@ -49,13 +49,16 @@ static char const * const cwsw_lib_RevString = "$Revision: 0123 $";
  *	this module needs to be deinitialized (such as, in preparation for entry
  *	into sleep mode, etc.)
  *
- *	\xreq{SR_LIB_0003}	(Supports, Component-specific)
+ *	@xreq{SR_LIB_0003}	(Supports, Component-specific)
  *
  *	@ingroup	cwsw_lib_init_group
  */
-PRIVATE bool initialized = false;
+PRIVATE bool	cwsw_lib_initialized = false;
 
-PRIVATE int protection_count = 0;
+/**	Nesting level for the Critical Section / Protected Region API.
+ * 	@xreq{SR_LIB_0301}	(Supports)
+ */
+PRIVATE int		cwsw_lib_cs_protection_count = 0;
 
 
 // ============================================================================
@@ -93,7 +96,7 @@ PRIVATE int protection_count = 0;
 uint16_t
 Cwsw_Lib__Init(void)
 {
-	uint16_t rv = initialized ? 2 : 1;	/* already initialized, or not initialized */
+	uint16_t rv = cwsw_lib_initialized ? 2 : 1;	/* already initialized, or not initialized */
 	UNUSED(cwsw_lib_RevString);
 
 	SUPPRESS_CONST_EXPR;			/* as these are all compile-time constants, we know they're constant, and do this intenionally; suppress compiler warning for this */
@@ -116,8 +119,8 @@ Cwsw_Lib__Init(void)
 	}
 	RESTORE_WARNING_CONTEXT;
 
-	initialized = true;
-    protection_count = 0;
+	cwsw_lib_initialized = true;
+    cwsw_lib_cs_protection_count = 0;
 	if(rv != 2)	/* if not reinitializing, clear error codes */
 	{
 		rv = 0;
@@ -138,7 +141,7 @@ Cwsw_Lib__Init(void)
 bool
 Cwsw_Lib__Get_Initialized(void)
 {
-	return initialized;
+	return cwsw_lib_initialized;
 }
 
 
@@ -158,7 +161,7 @@ cwsw_assert_helper_log(char const * const test,
 
 /** Helper function for CWSW Assert statement.
  *
- * @param[in]	test		The stringified text of the the test that failed the assertion
+ * @param[in]	test		The stringified text of the the test that failed the assertion.
  * @param[in]	filename	The name of the file that held the failed assertion.
  * @param[in]	lineno 		The line number in the file that held the failed assertion.
  * @param[in]	descrip     The user-supplied description that augments the assertion notice.
@@ -178,19 +181,30 @@ cwsw_assert_helper(char const * const test,
 }
 
 
+/**	Enter Critical Section / Protected Region.
+ *	This is a genericized API for an architecture-specific implementation.
+ *
+ *	@param[in] cs_prot_level	Protection level, where 0 is all interrupts 
+ *								disabled, and every (architecture-specific) 
+ *								level above "0" is a progressively narrower 
+ *								scope of protection.
+ *	@returns					New nesting level.
+ *
+ *	@xreq{SR_LIB_0301}  API exists.
+ */
 int
-Cwsw_Critical_Protect(int param)
+Cwsw_Critical_Protect(int cs_prot_level)
 {
-	UNUSED(param);
+	UNUSED(cs_prot_level);
 
 	SUPPRESS_CONST_EXPR;
-	cwsw_assert((protection_count >= 0) &&
-                (protection_count < INT_MAX),
+	cwsw_assert((cwsw_lib_cs_protection_count >= 0) &&
+                (cwsw_lib_cs_protection_count < INT_MAX),
                 "Invalid Critical Section Protection Count");
 	RESTORE_WARNING_CONTEXT;
 
-    if(protection_count < 0)    {protection_count = 0;}
-	if(protection_count)
+    if(cwsw_lib_cs_protection_count < 0)    {cwsw_lib_cs_protection_count = 0;}
+	if(cwsw_lib_cs_protection_count != 0)
 	{
 		// no need to engage protection, it's already protected
 	}
@@ -198,7 +212,7 @@ Cwsw_Critical_Protect(int param)
 	{
 		// todo: engage protection (e.g., disable interrupts, or specific interrupts anyway)
 	}
-	return ++protection_count;
+	return ++cwsw_lib_cs_protection_count;
 }
 
 int
@@ -207,15 +221,15 @@ Cwsw_Critical_Release(int param)
 	UNUSED(param);
 
 	SUPPRESS_CONST_EXPR;
-	cwsw_assert(protection_count > 0, "Invalid Critical Section Protection Count");		// must have valid count, and must have previously engaged protection
+	cwsw_assert(cwsw_lib_cs_protection_count > 0, "Invalid Critical Section Protection Count");		// must have valid count, and must have previously engaged protection
 	RESTORE_WARNING_CONTEXT;
 
-	if(!--protection_count)
+	if(!--cwsw_lib_cs_protection_count)
 	{
 		// protection count now zero, disengage protection in some way
 		// todo: disengage protection (e.g., reenable the disabled, etc.)
 	}
-	return protection_count;
+	return cwsw_lib_cs_protection_count;
 }
 
 

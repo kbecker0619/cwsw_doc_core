@@ -58,9 +58,14 @@ extern uint16_t 			Cwsw_Lib__Init(void);
 /** Retrieve the component's initialization status. */
 extern bool 				Cwsw_Lib__Get_Initialized(void);
 
-/*	\xreq{sr_lib_0000} */
-extern int Cwsw_Critical_Protect(int param);
+/** @defgroup	cwsw_lib_crit_section_group	Critical Section / Protected Region API
+ *	@ingroup	cwsw_lib_object_group
+ *	@{
+ */
+/*	@xreq{sr_lib_0301} */
+extern int Cwsw_Critical_Protect(int cs_prot_level);
 extern int Cwsw_Critical_Release(int param);
+/**	@} */
 
 
 //	===	definitions common to all environments ================================
@@ -156,7 +161,8 @@ extern int Cwsw_Critical_Release(int param);
 #define IN_RANGE(val, low, hi)	(((val) <= (low)) && ((val) >= (hi)))
 
 
-/** @defgroup bitmap_api	Bit Manipulation and Test
+/** @defgroup	bitmap_api	Bit Manipulation and Test
+ * 	@ingroup	cwsw_lib_object_group
  *	@{
  */
 /** Extract the value of a specific bit within a scalar bitmap.
@@ -244,7 +250,7 @@ enum { Cwsw_Lib = 0 };	/**< Module-specific identifier, used in API macros */
 
 
 /*  Initialize API description for the CWSW Library components (all of them) */
-/**	@defgroup	cwsw_lib_init_group		CWSW Library: Initialize API
+/**	@defgroup	cwsw_lib_init_group		Initialize API
  * 	@ingroup	cwsw_lib_object_group
  */
 /**	Abstract module initialization. This is the exposed, 1st-level API.
@@ -279,7 +285,7 @@ typedef uint16_t (*fpInit)(void);
 
 
 /*  Task API description for the CWSW Library components (all of them) */
-/**	@defgroup	cwsw_lib_task_group		CWSW Library: Task API
+/**	@defgroup	cwsw_lib_task_group		Task API
  * 	@ingroup	cwsw_lib_object_group
  */
 /**	Abstract Module task function. This is the exposed, 1st-level API.
@@ -299,6 +305,8 @@ typedef uint16_t (*fpInit)(void);
  * 	possible to pass a macro to the 1st-level (external) API, and we want the
  * 	macro to be fully expanded when the concatenation is done. We don't expect
  * 	to pass nested macro definitions.
+ *
+ * 	@xreq{SR_LIB_0200}	(Supports)
  */
 #define _TASK(instance)						instance ## __Task()
 
