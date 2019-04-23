@@ -58,7 +58,7 @@ extern uint16_t 			Cwsw_Lib__Init(void);
 /** Retrieve the component's initialization status. */
 extern bool 				Cwsw_Lib__Get_Initialized(void);
 
-/*	\xreq{sr_lib_0002} */
+/*	\xreq{sr_lib_0000} */
 extern int Cwsw_Critical_Protect(int param);
 extern int Cwsw_Critical_Release(int param);
 
@@ -255,7 +255,7 @@ enum { Cwsw_Lib = 0 };	/**< Module-specific identifier, used in API macros */
  *
  *	@ingroup	cwsw_lib_init_group
  *
- *	@xreq{SR_LIB_0003}	(Primary)
+ *	@xreq{SR_LIB_0002}	(Primary)
  *	@{
  */
 #define Init(instance)						_INIT(instance)
@@ -265,12 +265,12 @@ enum { Cwsw_Lib = 0 };	/**< Module-specific identifier, used in API macros */
  *	macro to be fully expanded when the concatenation is done. We don't expect
  *	to pass nested macro definitions.
  *
- *	@xreq{SR_LIB_0003}	(Supports)
+ *	@xreq{SR_LIB_0002}	(Supports)
  */
 #define _INIT(instance)						instance ## __Init()
 
 /**	Signature for the initialization API for the CWSW Library.
- *	@xreq{SR_LIB_0003}	(Supports)
+ *	@xreq{SR_LIB_0002}	(Supports)
  *
  *	@return	Error code, or 0 for success.
  */
@@ -290,7 +290,7 @@ typedef uint16_t (*fpInit)(void);
  *
  *	@ingroup	cwsw_lib_task_group
  *
- *	@xreq{SR_LIB_0201}	(Primary)
+ *	@xreq{SR_LIB_0200}	(Primary)
  *	@{
  */
 #define Task(instance)						_TASK(instance)
@@ -304,7 +304,7 @@ typedef uint16_t (*fpInit)(void);
 
 /** Signature for the task API for the CWSW Library.
  *
- *	@xreq{SR_LIB_0201}	(Supports)
+ *	@xreq{SR_LIB_0200}	(Supports)
  */
 typedef void (*fpTask)(void);
 /** @} */

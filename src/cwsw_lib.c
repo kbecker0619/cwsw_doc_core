@@ -49,7 +49,7 @@ static char const * const cwsw_lib_RevString = "$Revision: 0123 $";
  *	this module needs to be deinitialized (such as, in preparation for entry
  *	into sleep mode, etc.)
  *
- *	\xreq{SR_LIB_0004}	(Supports, Component-specific)
+ *	\xreq{SR_LIB_0003}	(Supports, Component-specific)
  *
  *	@ingroup	cwsw_lib_init_group
  */
@@ -81,12 +81,12 @@ PRIVATE int protection_count = 0;
  *	System	\\--	cwsw_lib: Error code
  *	@enduml
  *
+ *	@xreq{SR_LIB_0000}	(Primary, Component-specific)
  *	@xreq{SR_LIB_0002}	(Primary, Component-specific)
- *	@xreq{SR_LIB_0003}	(Primary, Component-specific)
  *
  *	@note By design, this function unilaterally reinitializes the component and
  *	returns all internal operating stateful behavior to original operating
- *	state. This means it takes exception to @req{SR_LIB_0004} and @req{SR_LIB_0005}
+ *	state. This means it takes exception to @req{SR_LIB_0003} and @req{SR_LIB_0004}
  *
  *	@ingroup	cwsw_lib_init_group
  */
