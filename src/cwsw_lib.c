@@ -184,9 +184,9 @@ cwsw_assert_helper(char const * const test,
 /**	Enter Critical Section / Protected Region.
  *	This is a genericized API for an architecture-specific implementation.
  *
- *	@param[in] cs_prot_level	Protection level, where 0 is all interrupts 
- *								disabled, and every (architecture-specific) 
- *								level above "0" is a progressively narrower 
+ *	@param[in] cs_prot_level	Protection level, where 0 is all interrupts
+ *								disabled, and every (architecture-specific)
+ *								level above "0" is a progressively narrower
  *								scope of protection.
  *	@returns					New nesting level.
  *
@@ -215,10 +215,21 @@ Cwsw_Critical_Protect(int cs_prot_level)
 	return ++cwsw_lib_cs_protection_count;
 }
 
+/**	Leave Critical Section / Protected Region.
+ *	This is a genericized API for an architecture-specific implementation.
+ *
+ *	@param[in] cs_prot_level	Protection level, where 0 is all interrupts
+ *								disabled, and every (architecture-specific)
+ *								level above "0" is a progressively narrower
+ *								scope of protection.
+ *	@returns					New nesting level.
+ *
+ *	@xreq{SR_LIB_0302}  API exists.
+ */
 int
-Cwsw_Critical_Release(int param)
+Cwsw_Critical_Release(int cs_prot_level)
 {
-	UNUSED(param);
+	UNUSED(cs_prot_level);
 
 	SUPPRESS_CONST_EXPR;
 	cwsw_assert(cwsw_lib_cs_protection_count > 0, "Invalid Critical Section Protection Count");		// must have valid count, and must have previously engaged protection

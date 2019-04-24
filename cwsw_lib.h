@@ -62,9 +62,10 @@ extern bool 				Cwsw_Lib__Get_Initialized(void);
  *	@ingroup	cwsw_lib_object_group
  *	@{
  */
-/*	@xreq{sr_lib_0301} */
+/**	@xreq{SR_LIB_0301} */
 extern int Cwsw_Critical_Protect(int cs_prot_level);
-extern int Cwsw_Critical_Release(int param);
+/** @xreq{SR_LIB_0302} */
+extern int Cwsw_Critical_Release(int cs_prot_level);
 /**	@} */
 
 
