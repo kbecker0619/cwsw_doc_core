@@ -56,7 +56,18 @@ static char const * const cwsw_lib_RevString = "$Revision: 0123 $";
 PRIVATE bool	cwsw_lib_initialized = false;
 
 /**	Nesting level for the Critical Section / Protected Region API.
- * 	@xreq{SR_LIB_0301}	(Supports)
+ *	The combination of requirements describing "not-active" vs. "active"
+ *	behavior upon both entry into and exit from a Critical Section, combined
+ *	with requirements about when to increment or decrement the nesting counter
+ *	and the range of the counter, require the presence of this counter.
+ *
+ * 	@xreq{SR_LIB_0303}	(Primary)
+ * 	@xreq{SR_LIB_0304}	(Primary)
+ * 	@xreq{SR_LIB_0305}	(Supporting)
+ * 	@xreq{SR_LIB_0307}	(Supporting)
+ * 	@xreq{SR_LIB_0308}	(Supporting)
+ * 	@xreq{SR_LIB_0309}	(Supporting)
+ * 	@xreq{SR_LIB_0310}	(Supporting)
  */
 PRIVATE int		cwsw_lib_cs_protection_count = 0;
 
