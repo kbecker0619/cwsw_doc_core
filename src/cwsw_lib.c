@@ -201,7 +201,31 @@ cwsw_assert_helper(char const * const test,
  *								scope of protection.
  *	@returns					New nesting level.
  *
+ *	@note	If the nesting counter is already at the ceiling upon entry, it
+ *			will become invalid after the incrementation. If your system is a
+ *			2s-complement system, rollover will occur. To signal this, a CWSW
+ *			assertion is made; default behavior of this is to simply write a
+ *			log entry to the console and loop for a short, uncalibrated time.
+ *			By design, this assertion behavior can be overridden.
+ *			<br>
+ *			If the nesting counter is so high that this implementation-defined
+ *			behavior is invoked, then it is likely there are other major things
+ *			that have already or will imminently fail. Our design choice is to
+ *			allow the "rollover" (for 2s-complement systems), knowing that the
+ *			mating "leave" api will also fail.
+ *
+ *	@par	Design
+ *	@startuml
+ *		System		->	 cwsw_lib: Cwsw_Critical_Protect()
+ *			cwsw_lib 	->	 SysArch: DisableInterrupts()
+ *			cwsw_lib 	\\-- SysArch
+ *		System		\\-- cwsw_lib: Nesting Level
+ *	@enduml
+ *
  *	@xreq{SR_LIB_0301}  API exists.
+ *	@xreq{SR_LIB_0303}	Increment nesting counter upon entry, provided counter
+ *						is in a valid range.
+ *	@xreq{SR_LIB_0305}	Data range of nesting counter.
  */
 int
 Cwsw_Critical_Protect(int cs_prot_level)
@@ -235,7 +259,31 @@ Cwsw_Critical_Protect(int cs_prot_level)
  *								scope of protection.
  *	@returns					New nesting level.
  *
+ *	@note	If the nesting counter is already at the floor upon entry, it will
+ *			become invalid after the decrementation. If your system is a
+ *			2s-complement system, rollunder will occur. To signal this, a CWSW
+ *			assertion is made; default behavior of this is to simply write a
+ *			log entry to the console and loop for a short, uncalibrated time.
+ *			By design, this assertion behavior can be overridden.
+ *			<br>
+ *			If the nesting counter is so low that this implementation-defined
+ *			behavior is invoked, then it is likely there are other major things
+ *			that have already or will imminently fail. Our design choice is to
+ *			allow the "rollunder" (for 2s-complement systems), knowing that the
+ *			mating "enter" api will also fail.
+ *
+ *	@par	Design
+ *	@startuml
+ *		System		->	 cwsw_lib: Cwsw_Critical_Protect()
+ *			cwsw_lib 	->	 SysArch: EnableInterrupts()
+ *			cwsw_lib 	\\-- SysArch
+ *		System		\\-- cwsw_lib: Nesting Level
+ *	@enduml
+ *
  *	@xreq{SR_LIB_0302}  API exists.
+ *	@xreq{SR_LIB_0304}	Decrement nesting counter upon entry, provided counter
+ *						is in a valid data range.
+ *	@xreq{SR_LIB_0305}	Data range of nesting counter.
  */
 int
 Cwsw_Critical_Release(int cs_prot_level)
