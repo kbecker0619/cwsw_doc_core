@@ -68,6 +68,8 @@ PRIVATE bool	cwsw_lib_initialized = false;
  * 	@xreq{SR_LIB_0308}	(Supporting)
  * 	@xreq{SR_LIB_0309}	(Supporting)
  * 	@xreq{SR_LIB_0310}	(Supporting)
+ *
+ *	@ingroup	cwsw_lib_crit_section_group
  */
 PRIVATE int		cwsw_lib_cs_protection_count = 0;
 
@@ -81,8 +83,8 @@ PRIVATE int		cwsw_lib_cs_protection_count = 0;
 // ============================================================================
 
 /**	@details This function shall be called before the main scheduler is started.
- *	This function's responsibility is to set up the local vars, to prepare for
- *	the task function's 1st call (once the scheduler has been started).
+ *	This function's responsibility is to set up the local variables, to prepare
+ *	for the task function's 1st call (once the scheduler has been started).
  *
  *	@returns	0 if the component is successfully initialized.
  *	@returns	error code if the component is not initialized.
@@ -91,8 +93,8 @@ PRIVATE int		cwsw_lib_cs_protection_count = 0;
  *				the simulated event mechanism is used to handle error codes.
  *
  * 	@startuml
- *	System	->		cwsw_lib: Init()
- *	System	\\--	cwsw_lib: Error code
+ *		System	->		cwsw_lib: Init()
+ *		System	\\--	cwsw_lib: Error code
  *	@enduml
  *
  *	@xreq{SR_LIB_0000}	(Primary, Component-specific)
@@ -250,6 +252,7 @@ Cwsw_Critical_Protect(int cs_prot_level)
 	return ++cwsw_lib_cs_protection_count;
 }
 
+
 /**	Leave Critical Section / Protected Region.
  *	This is a genericized API for an architecture-specific implementation.
  *
@@ -270,7 +273,7 @@ Cwsw_Critical_Protect(int cs_prot_level)
  *			behavior is invoked, then it is likely there are other major things
  *			that have already or will imminently fail. Our design choice is to
  *			allow the "rollunder" (for 2s-complement systems), knowing that the
- *			mating "enter" api will also fail.
+ *			next "enter" api will also fail.
  *
  *	@par	Design
  *	@startuml

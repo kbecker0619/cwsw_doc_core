@@ -59,12 +59,23 @@ extern uint16_t 			Cwsw_Lib__Init(void);
 extern bool 				Cwsw_Lib__Get_Initialized(void);
 
 /** @defgroup	cwsw_lib_crit_section_group	Critical Section / Protected Region API
+ *
+ *	The CWSW Critical Section API is designed to be a small wrapper on top of
+ *	the CPU architecture's method for enabling or disabling interrupts, or, if
+ *	the design allows other methods of protection that are less restrictive
+ *	than interrupt manipulation, to invoke that method also.
+ *
+ *	The heart of the actual protection mechanism is left to the project, by
+ *	defining the name of the callout.
+ *
+ *	The Critical Section API intentionally ignores the "initialized" status
+ *	of the CWSW Library component itself, and operates as designed regardless
+ *	of whether or not the CWSW Library component has been initialized.
+ *
  *	@ingroup	cwsw_lib_object_group
  *	@{
  */
-/**	@xreq{SR_LIB_0301} */
 extern int Cwsw_Critical_Protect(int cs_prot_level);
-/** @xreq{SR_LIB_0302} */
 extern int Cwsw_Critical_Release(int cs_prot_level);
 /**	@} */
 
