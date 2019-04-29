@@ -253,7 +253,7 @@ Cwsw_Critical_Protect(int cs_prot_level)
     }
 	if(cwsw_lib_cs_protection_count != 0)
 	{
-		// no need to engage protection, it's already protected
+		CWSW_LIB_CRIT_SECT_ENTER_NOP(cs_prot_level);/* <<== PROJECT-LEVEL CALLBACK to invoke nop */
 	}
 	else
 	{
