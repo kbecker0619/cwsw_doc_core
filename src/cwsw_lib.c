@@ -197,6 +197,10 @@ cwsw_assert_helper(char const * const test,
 /**	Enter Critical Section / Protected Region.
  *	This is a genericized API for an architecture-specific implementation.
  *
+ * 	This function relies on a Function-Like Macro (FLM) that is configured by
+ * 	the integration project, to be whatever is suitable for the MCU
+ * 	architecture and system, for the specified protection level.
+ *
  *	@param[in] cs_prot_level	Protection level, where 0 is all interrupts
  *								disabled, and every (architecture-specific)
  *								level above "0" is a progressively narrower
@@ -228,6 +232,9 @@ cwsw_assert_helper(char const * const test,
  *	@xreq{SR_LIB_0303}	Increment nesting counter upon entry, provided counter
  *						is in a valid range.
  *	@xreq{SR_LIB_0305}	Data range of nesting counter.
+ *	@xreq{SR_LIB_0306}	Treatment of bad nesting counter value.
+ *	@xreq{SR_LIB_0307}	Behavior upon 1st activation.
+ *	@xreq{SR_LIB_0308}	Behavior when protection already engaged.
  */
 int
 Cwsw_Critical_Protect(int cs_prot_level)
@@ -240,14 +247,17 @@ Cwsw_Critical_Protect(int cs_prot_level)
                 "Invalid Critical Section Protection Count");
 	RESTORE_WARNING_CONTEXT;
 
-    if(cwsw_lib_cs_protection_count < 0)    {cwsw_lib_cs_protection_count = 0;}
+    if(cwsw_lib_cs_protection_count < 0)
+    {
+    	cwsw_lib_cs_protection_count = 0;
+    }
 	if(cwsw_lib_cs_protection_count != 0)
 	{
 		// no need to engage protection, it's already protected
 	}
 	else
 	{
-		// todo: engage protection (e.g., disable interrupts, or specific interrupts anyway)
+		CWSW_LIB_CRIT_SECT_ENTER(cs_prot_level);    /* <<== PROJECT-LEVEL CALLBACK to engage protection */
 	}
 	return ++cwsw_lib_cs_protection_count;
 }
