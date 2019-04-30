@@ -251,15 +251,11 @@ Cwsw_Critical_Protect(int cs_prot_level)
     {
     	cwsw_lib_cs_protection_count = 0;
     }
-	if(cwsw_lib_cs_protection_count != 0)
-	{
-		CWSW_LIB_CRIT_SECT_ENTER_NOP(cs_prot_level);/* <<== PROJECT-LEVEL CALLBACK to invoke nop */
-	}
-	else
+	if(!cwsw_lib_cs_protection_count++)
 	{
 		CWSW_LIB_CRIT_SECT_ENTER(cs_prot_level);    /* <<== PROJECT-LEVEL CALLBACK to engage protection */
 	}
-	return ++cwsw_lib_cs_protection_count;
+	return cwsw_lib_cs_protection_count;
 }
 
 
@@ -310,7 +306,7 @@ Cwsw_Critical_Release(int cs_prot_level)
 	if(!--cwsw_lib_cs_protection_count)
 	{
 		// protection count now zero, disengage protection in some way
-		// todo: disengage protection (e.g., reenable the disabled, etc.)
+		CWSW_LIB_CRIT_SECT_LEAVE(cs_prot_level);    /* <<== PROJECT-LEVEL CALLBACK to engage protection */
 	}
 	return cwsw_lib_cs_protection_count;
 }
