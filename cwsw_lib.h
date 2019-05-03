@@ -388,7 +388,7 @@ typedef void (*fpTask)(void);
 
 #endif
 
-#if (XPRJ_Win_MinGW_Debug) || (XPRJ_Debug_Linux_GCC)
+#if (XPRJ_Win_MinGW_Debug) || (XPRJ_Win_Cygwin_Debug_UT) || (XPRJ_Debug_Linux_GCC)
 	/**	Disable console buffering.
 	 * 	Within eclipse, on Windows, using MinGW, it seems that stdout
 	 *	buffering is broken. The advice I've found is to disable said
@@ -407,10 +407,11 @@ typedef void (*fpTask)(void);
 
 #endif
 
-#if (XPRJ_Win_MinGW_Debug)	||  \
-	(XPRJ_Debug_Linux_GCC)	||  \
-	(XPRJ_NB_Debug)			||  \
-	(XPRJ_CVI_Debug) 		||  \
+#if (XPRJ_Win_MinGW_Debug)		||  \
+	(XPRJ_Win_Cygwin_Debug_UT)	||	\
+	(XPRJ_Debug_Linux_GCC)		||  \
+	(XPRJ_NB_Debug)				||  \
+	(XPRJ_CVI_Debug) 			||  \
 	(XPRJ_Win_MSVC_Debug)
 	/**	When built on a PC, it's likely I want to see module elements that we would
 	 *	otherwise want to keep secret.

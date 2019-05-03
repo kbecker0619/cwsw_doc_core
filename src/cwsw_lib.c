@@ -113,11 +113,11 @@ Cwsw_Lib__Init(void)
 	UNUSED(cwsw_lib_RevString);
 
 	SUPPRESS_CONST_EXPR;			/* as these are all compile-time constants, we know they're constant, and do this intenionally; suppress compiler warning for this */
-	if(	(XPRJ_Win_MinGW_Debug) 	||  \
-		(XPRJ_Win_MinGW_UT)		||	\
-		(XPRJ_Debug_Linux_GCC) 	||  \
-		(XPRJ_NB_Debug)			||  \
-		(XPRJ_Win_MSVC_Debug)	||  \
+	if(	(XPRJ_Win_MinGW_Debug)	 	||  \
+		(XPRJ_Win_Cygwin_Debug_UT)	||	\
+		(XPRJ_Debug_Linux_GCC)		||  \
+		(XPRJ_NB_Debug)				||  \
+		(XPRJ_Win_MSVC_Debug)		||  \
 		(XPRJ_CVI_Debug) )
 	{
 		disable_console_buffering();
@@ -306,7 +306,7 @@ Cwsw_Critical_Release(int cs_prot_level)
 	if(!--cwsw_lib_cs_protection_count)
 	{
 		// protection count now zero, disengage protection in some way
-		CWSW_LIB_CRIT_SECT_LEAVE(cs_prot_level);    /* <<== PROJECT-LEVEL CALLBACK to engage protection */
+		CWSW_LIB_CRIT_SECT_LEAVE(cs_prot_level);    /* <<== PROJECT-LEVEL CALLBACK to disengage protection */
 	}
 	return cwsw_lib_cs_protection_count;
 }
