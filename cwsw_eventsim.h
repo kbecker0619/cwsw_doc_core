@@ -1,17 +1,11 @@
 /** @file
  *	@brief	API for proposed simulated events.
  *
- *	Description:
- *
  *	Copyright (c) 2019 Kevin L. Becker. All rights reserved.
  *
  *	Original:
  *	Created on: Jun 4, 2017
  *	Author: kbecker
- *
- *	Current:
- *	$Revision: $
- *	$Date: $
  */
 
 #ifndef CWSW_EVENTSIM_H_

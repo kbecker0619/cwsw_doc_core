@@ -1,25 +1,15 @@
 /** @file
  *	@brief	Portable Types
  *
- *	Description:
- *
  *	Copyright (c) 2019 Kevin L. Becker. All rights reserved.
  *
  *	Original:
  *	Created on: Feb 2, 2017
  *	Author: kbecker
- *
- *	Current:
- *	$Revision: $
- *	$Date: $
  */
 
 #ifndef PTYPES_H_
 #define PTYPES_H_
-
-#ifdef	__cplusplus
-extern "C" {
-#endif
 
 // ============================================================================
 // ----	Include Files ---------------------------------------------------------
@@ -31,6 +21,11 @@ extern "C" {
 // ----	Project Headers -------------------------
 
 // ----	Module Headers --------------------------
+
+
+#ifdef	__cplusplus
+extern "C" {
+#endif
 
 
 // ============================================================================

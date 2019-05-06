@@ -6,10 +6,6 @@
  *	Original:
  *	Created on: Jun 4, 2017
  *	Author: kbecker
- *
- *	Current:
- *	$Revision: $
- *	$Date: $
  */
 
 #ifndef CWSW_LIB_H_
@@ -33,6 +29,7 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
+
 
 // ============================================================================
 // ----	Constants -------------------------------------------------------------
